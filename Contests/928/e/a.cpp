@@ -11,31 +11,26 @@ int main (int argc, char *argv[]){
         ll n, k;
         cin >> n >> k;
         
-        if (n == 1 || k == 1) {
-            cout << 1 << endl;
-            continue; 
-        }
-        
-        if(n % 2 == 1) n++;
-
-        if (k <= n/2) {
-            cout << 1+(2*(k-1)) << endl;
+        if (k <= (n/2 + n%2)) {
+            cout << (1+2*(k-1)) << endl;
             continue;
         }
-        ll r = 1;
-        while (k) {
-         
-        }     
-    
 
 
-    
-        cout << ((2*r)*(k-1)) << endl;
-        continue;
-
+        ll p = 0; 
+        ll pos = 0;
+        ll m = n;
+        while (k > m/2 + m%2) {
+            k -= (m/2 + m%2);
+            m = (m/2);
+            p++;
+        }
         
-
-
+        
+        ll sum = 2*(k-1);
+        sum++;
+        sum *= pow(2 ,p);
+        cout << sum << endl; 
     }
 
 

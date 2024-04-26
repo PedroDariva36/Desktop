@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <numeric>
 #define ll long long
 
 
@@ -9,19 +10,27 @@ int main (int argc, char *argv[]){
     int t;
     cin >> t;
     while (t--) {
-        long n, k;
+        ll n, k;
         cin >> n >> k;
-            
-        ll sum = 0; 
-        while(n > 0){
-            if (n >= k) {
-                sum += (n - n%k);
-                n %= k;
-            }
-            else {
-                    
-            }
+        
+        if (n % k == 0) {
+            cout << 0 << endl; 
+            continue; 
         }
+        
+        n = n % k;
+        ll g = gcd(n, k);
+        ll a = n / g;
+        ll b = k / g;
+        if (__builtin_popcount(b) > 1) {
+            cout << -1 << endl;
+            continue;
+        }
+        
+        ll sum = __builtin_popcount(a);
+        sum *= k;
+        sum -= n;
+        cout << sum << endl;
 
 
     }
