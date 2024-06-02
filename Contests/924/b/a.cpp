@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include <ios>
+#include <vector>
 #define ll long long
 using namespace std;
 
@@ -16,35 +17,25 @@ int main (int argc, char *argv[]){
         ll aux;
         cin >> n;
         map<long,long> m;
-        set<long> s;
         
         for(int i = 0; i < n; i++){
             cin >> aux;
             m[aux]++;
         }
-        int n1 = 1;
-        long last = 0;
-        for(auto i : m){
-            long k = i.first - last;
-
-            if(k == i.first){
-                last = i.first;
-                continue;
-            }
-            last = i.first;
-            
-            if(k == 1){
-                n1++;
-                continue;
-            }
         
-            if(k < n)
-                s.insert(k);
-        }       
+        vector<long> a;
+        for (auto &i : m) a.push_back(i.first); 
+    
+        //for (auto i: a) cout << i << endl; 
 
+        int sum = 0;
+        int p = 0;
+        for (int i = 0; i < a.size(); i++) {
+            while (a[p] - a[i] < n && p < a.size()) p++;
+            sum = max(sum, (p - i));
+        }
         
-        cout << max(n1 , (int)s.size()+1) << endl;
-
+        cout << sum << endl;
 
 
 
