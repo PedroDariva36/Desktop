@@ -24,23 +24,16 @@ int main (int argc, char *argv[]){
         for (auto &i : b) cin >> i; 
 
 
-
-        bool f = false;
-        ll k = b.back();
         ll sum = 0;
-        ll d = k;
+        ll mn = 1e12;
         for (int i = 0; i < n; i++) {
             sum += abs(a[i] - b[i]);
-            ll x = a[i], y = b[i];
-            if (x > y) swap(x,y);            
-            if(k >= a[i] && k <= b[i]) f = true;
-            if (f == false) d = min(min(abs(a[i] - k), abs(b[i] - k)),d); 
+            mn = min(mn, min (abs(a[i] - b[n]), abs(b[i] - b[n])));
+            if (min(a[i], b[i]) <= b[n] && b[n] <= max(a[i], b[i]))
+                mn = 0;
         }
-        
-        if(!f) sum+=d;
+        cout << sum + mn + 1 << endl;; 
 
-        sum++;
-        cout << sum << endl;
     }
 
     return 0;

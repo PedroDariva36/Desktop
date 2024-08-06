@@ -1,23 +1,23 @@
 #include <algorithm>
 #include <bits/stdc++.h>
-
+ 
 using namespace std;
-
-
+ 
+ 
 const int N = 2*1e5;
 int n;
 long t[2*N];
-
-
+ 
+ 
 void build(){
     for(int i = n-1; i > 0; i--) 
         t[i] = min(t[i<<1], t[i<<1|1]);
 }
-
+ 
 void modify(int p, long v){
     for(t[p+=n] = v; p > 1; p >>= 1) t[p >> 1] = min(t[p],t[p^1]); 
 }
-
+ 
 long query(int l, int r){
    long asw = 1e9+1; 
    for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
@@ -26,7 +26,7 @@ long query(int l, int r){
    }
     return asw; 
 }
-
+ 
 int main (int argc, char *argv[])
 {
     int m; 
@@ -44,6 +44,5 @@ int main (int argc, char *argv[])
     }
     return 0;
 }
-
-
+ 
 
