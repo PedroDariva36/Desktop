@@ -13,17 +13,30 @@ template<typename T> using hash_set = std::unordered_set<T, custom_hash>;
 using namespace std;
 
 
-
-
-
 int main (int argc, char *argv[]){
     cin.tie(0)->sync_with_stdio(0);
     int tt;
     cin >> tt;
     while (tt--) {
-        int n;
-        cin >> n;
-    
+        ll x,y;
+        cin >> x >> y;
+            
+        if(y%x == 0){
+            if(x == y){
+                cout << 1 << " " << 1 << endl;
+                continue;
+            } 
+            ll k = y/x; 
+            cout << 1 << " " << k << endl;
+
+
+        } 
+        else{
+            cout << 0 << " " << 0 << endl;
+        }
+
+
+
 
 
 
