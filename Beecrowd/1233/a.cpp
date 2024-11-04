@@ -1,37 +1,46 @@
 #include <bits/stdc++.h>
-#include <cstdlib>
-#define ll long long
-#define endl '\n'
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define pb push_back
-
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+#define ll  long long
 using namespace std;
 
+const int N = 41900;
+array<int,4380> primes;
+char sv[N] = {1};
+int n,k = 0;
 
+void sieve(){
+    memset(sv, 1, sizeof(sv)); 
+    for (int i = 3; i * i < N; i += 2)
+        if (sv[i])
+            for (int j = i * i; j < N; j += i + i)
+                sv[j] = false;
 
+    primes[k++] = 2;
+    for (int i = 3; i < N; i += 2)
+        if (sv[i]) primes[k++] = i; 
+}
+ 
 int main (int argc, char *argv[]){
-//    cin.tie(0)->sync_with_stdio(0);
-    long n; 
-    while (cin >> n) {
-        ll c = 0; 
-        /* 
-        for (long i = 2; i*i <= n; i++) {
-            if (n%i == 0) {
-                c++;
-                if(n/i != i) c++;
+    sieve(); 
+    cin.tie(0)->sync_with_stdio(0);
+    cout.tie(0);
+    while(scanf("%d",&n)!= EOF){
+        int m = n;
+        for (int i = 0; i < k && primes[i] * primes[i] <= n; i++){
+            const int g = primes[i]; 
+            if (n % g == 0) {
+                while (n % g == 0) n /= g;
+                m /= g;
+                m *= g - 1;
             }
         }
-        */
-
-        for (auto i = 1; i <= 1; i++) {
-            if(n%i == 1) c++;
+        if (n != 1) {
+            m /= n;
+            m *= n - 1;
         }
-
-        cout << ((n>>1) - c) << endl;;
-
-
+        printf("%d\n", m>>1);
     }
 
     return 0;
-} 
+}

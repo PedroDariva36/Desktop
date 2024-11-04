@@ -14,27 +14,40 @@ int main (int argc, char *argv[]){
     int tt;
     cin >> tt;
     while (tt--) {
-        int n, k;
-        char aux;
+        int n;
+        ll k;
         cin >> n >> k;
-        int a[26] = {0};
-        for(int i = 0; i < n; i++) {
-            cin >> aux;
-            a[aux-'a'] = !a[aux-'a'];
-        }
-        
-        ll sum = 0; 
-        for (auto i: a) {
-            sum += i; 
-        }
-        
-        if(sum-k > 1)
-            cout << "NO";
-        else
-            cout << "YES";
-        cout << endl;
 
-         
+        ll aux;
+        ll asw = 0;
+        map<ll,ll> m;
+        for(int i = 0; i < n; i++){
+            cin >> aux;
+            m[aux%k]++; 
+        }
+
+        if(k == 4){
+            if(m[0] >= 1) asw = 0; 
+            else if(m[3] >= 1) asw = 1;
+            else{ 
+                int l = 4;
+                for(int i = 2; i >= 1; i--){
+                    if(m[i] > 0){
+                        l-=i;
+                        asw++;
+                    }
+                }
+            }
+        } 
+        else{
+            for(int i = k; i >= 1; i--){
+                if(m[(i)%k] >= 1){
+                    asw = ((k - i) % k); 
+                    break;
+                }
+            }
+        } 
+        cout << asw << endl;;
 
     }
     return 0;
