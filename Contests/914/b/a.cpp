@@ -16,38 +16,35 @@ int main (int argc, char *argv[]){
     while (t--) {
         int n;
         cin >> n;
-        
-        vector<ll> a(n),b(n),pre(n);
-        
-        for (int i = 0; i < n; i++) {
-            cin >> a[i];
-            b[i] = a[i]; 
+        vector<pair<int,int>> a(n); 
+        for(int i = 0; i < n; i++){
+            cin >> a[i].first;
+            a[i].second = i;
+        } 
+        sort(all(a));
+    
+        vector<ll> prefix(n);
+        vector<ll> asw(n,0);
+        ll sum = 0;
+        for(int i = 0; i < n; i++){
+            sum += a[i].first;
+            prefix[i] = sum;
         }
-
-        sort(all(b));
-        ll sum = 0; 
-        for (int i = 0; i < n; i++) {
-            sum += b[i];
-            pre[i] = sum;
-        }
-        
-        for (int i = 0; i < n; i++) {
-            ll k = a[i];
-             
-            int l = 0;
-            int r = n-1;
-            while (l < r) {
-                  
+            
+        asw[a[n-1].second] = n-1;
+        for(int i = n-2; i >= 0; i--){
+            sum = prefix[i];
+            if(sum >= a[i+1].first){
+                asw[a[i].second] = asw[a[i+1].second];
             }
-
-
-
-
+            else asw[a[i].second] = i;
         }
+    
         
-
-
-
+        for(int i = 0; i < n; i++){
+            cout << asw[i] << " ";
+        }
+        cout << endl;
 
 
     }

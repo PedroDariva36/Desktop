@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <queue>
 #define ll  long long
 #define ull unsigned long long
 #define endl '\n'
@@ -14,10 +15,32 @@ int main (int argc, char *argv[]){
     int tt;
     cin >> tt;
     while (tt--) {
-        int n;
+        int n, k;
         cin >> n;
     
+        vector<ll> a(n); 
+        vector<ll> b(n);
+
+        for(auto &i: a)cin>> i;
+        for(auto &i: b)cin>> i;
+
+
+        priority_queue<pair<ll,ll>> q;
+        for(int i = 0; i < n; i++){
+            q.push({a[i], i});
+        } 
         
+
+        ll asw = 0;
+        ll v, i; 
+        while (k--) {
+            tie(v,i) = q.top();
+            q.pop();
+            asw += v;
+            q.push({max((v - b[i]), 0ll), i}); 
+        }
+
+        cout << asw << endl;
          
 
     }

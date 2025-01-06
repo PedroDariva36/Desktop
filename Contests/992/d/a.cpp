@@ -1,0 +1,117 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+struct custom_hash {static uint64_t splitmix64(uint64_t x) {x += 0x9e3779b97f4a7c15; x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9; x = (x ^ (x >> 27)) * 0x94d049bb133111eb; return x ^ (x >> 31); } size_t operator()(uint64_t x) const {static const uint64_t FIXED_RANDOM = std::chrono::steady_clock::now().time_since_epoch().count(); return splitmix64(x + FIXED_RANDOM);}};
+template<typename T, typename comp_function = std::less<T>> using indexed_set = class __gnu_pbds::tree<T, __gnu_pbds::null_type, comp_function, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update>;
+template<typename K, typename V> using hash_map = std::unordered_map<K, V, custom_hash>;
+template<typename T> using hash_set = std::unordered_set<T, custom_hash>;
+#define ll  long long
+#define ull unsigned long long
+#define endl '\n'
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define pb push_back
+using namespace std;
+
+const int N = 4e5;
+vector<bool> prime(N+1, 1);
+void sieve(){
+    prime[0] = 0;
+    prime[1] = 0;
+    for(int i = 2; i * i <= N; i++){
+        if(prime[i]) 
+            for(int j = i*i; j <= N; j+= i){
+            prime[j] = 0;
+        }
+    }
+}
+
+
+int main (int argc, char *argv[]){
+    sieve();
+    cin.tie(0)->sync_with_stdio(0);
+    int tt = 1;
+    cin >> tt;
+    while(tt--){
+        int n;
+        cin >> n;
+
+        vector<vector<int>> g(n);
+        vector<int> dg(n,0);
+        vector<int> marked(n,0);
+        set<int> odd, even;  
+        
+        for(int i = 2; i <= n+n; i+=2){
+            even.insert(i);
+        }
+        for(int i = 1; i <= n+n; i+=2){
+            odd.insert(i);
+        }
+
+
+        for(int i = 0, l, r; i < n-1; i++){
+            cin >> l >> r, l--, r--;
+            g[l].pb(r);
+            g[r].pb(l);
+            dg[l]++;
+            dg[r]++;
+
+        }
+        int pos = 0;
+        int md = 0;
+        for(int i = 0; i < n;i++){
+            if(dg[i] > md){
+                md = dg[i];
+                pos = i;
+            }
+        }
+        ll x, last;
+        queue<pair<ll,ll>> q;
+        marked[x] = 1;
+
+        for(auto &i: g[pos]) q.push({i,1});
+
+        while (!q.empty()) {
+            tie(x,last) = q.front(); q.pop();
+   
+             
+            if(last & 1){
+                for(auto &i: odd){
+                    if(prime[abs(i - last)]) continue;
+                    marked[x] = i;
+                }
+                odd.erase(marked[x]);
+            }
+
+            else{ 
+                for(auto &i: even){
+                    if(prime[abs(i - last)]) continue;
+                    marked[x] = i;
+                }
+                even.erase(marked[x]);
+            }
+            
+
+            if(marked[x] == 0) break;
+
+            for(auto &i: g[x]){
+                if(marked[i]) continue; 
+                q.push({i, marked[x]});
+            }
+        }
+
+        
+
+
+
+    
+        if(*min_element(all(marked)) == 0) cout << -1 << endl;
+        else{
+            for(auto &i: marked) cout << i << " ";
+            cout << endl;
+        }
+
+
+     }
+
+    return 0;
+}

@@ -16,34 +16,42 @@ int main (int argc, char *argv[]){
     int t;
     cin >> t;
     while (t--) {
-        int n;
-        long k;
+        ll n, k;
         cin >> n >> k;
-        
-        if (n == 1) {
+ 
+        if(n == 1){
             cout << k << endl;
-            continue; 
+            continue;
         }
-        
-        int p = 63 - __builtin_clzl(k);
-        long x = k - (1 << (p));
-        long y = 0;
-        long h = (1 << (p-1));
 
-        while (h > 0) {
-            if ((h & x) == 0){
-                y += h;
-            }
-            h >>= 1;
+        int p = 1;  
+        while ((1ll << p) <= k)
+            p++;
+        
+        bitset<64> x= k;  
+        int z = 0;
+        for(int i = 0; i < p-1; i++){
+            if(x[i]) continue;
+            z++; 
         }
-        n-=3;
-        k -= (x+y);
-        cout << x << " " << y << " ";
-        for (int i = 0 ; i < n ; i ++) {
-            cout << 1 << " ";
-            k--;
-        } 
-        cout << k << endl;
+
+    
+        if(z > 1){
+            cout << (1ll << (p-1)) -1 << " ";
+            cout << k - (1ll << (p-1)) + 1 << " ";
+            for(int i = 2; i < n; i++)
+                cout << 0 << " ";
+            cout << endl;
+        }
+
+        else{
+            cout << k << " ";
+            for(int i = 1; i < n; i++)
+                cout << 0 << " ";
+            cout << endl;
+        }
+
+
 
     }
 

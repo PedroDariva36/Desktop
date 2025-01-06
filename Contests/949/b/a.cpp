@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <bitset>
 #include <vector>
 #define ll long long
 #define endl '\n'
@@ -13,39 +14,31 @@ int main (int argc, char *argv[]){
     int t;
     cin >> t;
     while (t--) {
-        int n,m;
+        ll n,m;
         cin >> n >> m;
-        
-        vector<int> b(n+1), a(n+1);
-        int c = 0;
-        for (auto &i : a) i = c++;
-        
-        b[0] = a[0]|a[1]; 
-        for (int i = 1; i < n; i++) {
-            b[i] = a[i-1] | a[i] | a[i+1];
-        }
-        b[n] = a[n-1]|a[n]|n+1;
+   
 
-        for (auto i :b) {
-            cout << i << " ";
+        bitset<64> k = n;
+        bitset<64> l = max(0ll,n-m);
+        bitset<64> r = n+m; 
+    
+        bool f = 1;
+        for(int i = 63; i >= 0; i--){
+            if(f && k[i] == l[i]) continue;
+            f=0; 
+            k[i] = 1;
+        }        
+        f = 1;
+        for(int i = 63; i >= 0; i--){
+            if(f && k[i] == r[i]) continue;
+            f=0; 
+            k[i] = 1;
         }
-        cout << endl;
-        m--;
-        
-        a = b;
-        while (m--) {
-            b[0] = a[0]|a[1]; 
-            for (int i = 1; i < n; i++) {
-                b[i] = a[i-1] | a[i] | a[i+1];
-            }
-            b[n] = a[n-1]|a[n]|n+1;
+    
+        n = k.to_ullong();
+        cout << n << endl; 
 
-            for (auto i :b) {
-                cout << i << " ";
-            }
-            cout << endl;
-            a = b;
-        }
+
 
 
     }
